@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.DigestUtils;
 
-import java.util.UUID;
+import static com.jakie.usercenter.service.UserService.SALT;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -39,16 +39,8 @@ public class SimpleTest {
 
     @Test
     public void testDigest(){
-        System.out.println(DigestUtils.md5DigestAsHex("123456".getBytes()));
-        String s = DigestUtils.md5DigestAsHex(("abc" + "123456").getBytes());
-
-        System.out.println(s);
-        String s1 = DigestUtils.md5DigestAsHex(("abc" + "123456").getBytes());
-
-
-        String s2 = DigestUtils.md5DigestAsHex((UUID.randomUUID().toString() + "123456").getBytes());
-        System.out.println(s2);
-        System.out.println(s1);
+        String str = DigestUtils.md5DigestAsHex((SALT+"123456").getBytes());
+        System.out.println(str);
 
     }
 

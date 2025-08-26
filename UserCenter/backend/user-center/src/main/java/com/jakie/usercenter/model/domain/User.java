@@ -2,6 +2,7 @@ package com.jakie.usercenter.model.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 import lombok.Data;
@@ -70,7 +71,14 @@ public class User {
     private Date updateTime;
 
     /**
+     * 逻辑删除
      * 标识该用户是否被删除 0 未删除
      */
+    @TableLogic
     private Integer isDelete;
+
+    /**
+     * 用户角色 0 - 普通用户  1 - 管理员
+     */
+    private Integer userRole;
 }

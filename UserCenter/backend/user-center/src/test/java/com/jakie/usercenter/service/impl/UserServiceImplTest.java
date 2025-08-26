@@ -34,6 +34,10 @@ class UserServiceImplTest {
         l = userService.userRegister(userAccount, userPassword, checkPassword);
         Assertions.assertEquals(-1,l);
 
+        //账户包含特殊字符
+        userAccount = "ja&ie";
+        l = userService.userRegister(userAccount, userPassword, checkPassword);
+        Assertions.assertEquals(-1,l);
 
         //用户已存在
         userAccount = "1234";

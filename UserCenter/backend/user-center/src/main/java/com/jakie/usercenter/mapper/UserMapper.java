@@ -1,7 +1,7 @@
 package com.jakie.usercenter.mapper;
 
-import com.jakie.usercenter.model.domain.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.jakie.usercenter.model.domain.User;
 
 /**
 * @author Just Lee
