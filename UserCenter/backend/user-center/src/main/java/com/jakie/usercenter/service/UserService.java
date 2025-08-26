@@ -15,9 +15,11 @@ public interface UserService extends IService<User> {
     String SALT = "jakie";
 
 
-    long userRegister(String username,String password,String checkPassword);
+    long userRegister(String username,String password,String checkPassword,String planetCode);
 
     User userLogin(String userAccount, String userPassword, HttpServletRequest request);
 
     User getSafetyUser(User loginUser);
+
+
 }

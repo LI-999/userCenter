@@ -51,19 +51,29 @@ public class UserController {
         String userAccount = userRegisterRequest.getUserAccount();
         String userPassword = userRegisterRequest.getUserPassword();
         String checkPassword = userRegisterRequest.getCheckPassword();
+        String planetCode = userRegisterRequest.getPlanetCode();
 
 
-        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
+        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword,planetCode)) {
             return null;
         }
 
-        return userService.userRegister(userAccount, userPassword, checkPassword);
+        return userService.userRegister(userAccount, userPassword, checkPassword,planetCode);
     }
-    
+
+    @PostMapping("/logout")
+    public int userLogout(HttpServletRequest request) {
+        request.getSession().removeAttribute(UserConstant.LOGIN_USER_ACCOUNT);
+        return 1;
+    }
+
+
+
+
 
 
     @GetMapping("/search")
-    public List<User> search(String username, HttpServletRequest request) {
+    public List<User> search(@RequestParam("username") String username, HttpServletRequest request) {
         //鉴权 仅管理员可搜索
         if (!isAdmin(request)) {
             return new ArrayList<>();

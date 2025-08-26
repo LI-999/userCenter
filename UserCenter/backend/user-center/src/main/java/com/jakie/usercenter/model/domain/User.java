@@ -71,6 +71,11 @@ public class User {
     private Date updateTime;
 
     /**
+     * 星球编号
+     */
+    private String planetCode;
+
+    /**
      * 逻辑删除
      * 标识该用户是否被删除 0 未删除
      */

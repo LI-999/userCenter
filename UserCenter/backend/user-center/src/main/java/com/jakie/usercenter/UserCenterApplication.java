@@ -11,9 +11,9 @@ public class UserCenterApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext run = SpringApplication.run(UserCenterApplication.class, args);
-        for (String beanDefinitionName : run.getBeanDefinitionNames()) {
-            System.out.println(beanDefinitionName);
-        }
+//        for (String beanDefinitionName : run.getBeanDefinitionNames()) {
+//            System.out.println(beanDefinitionName);
+//        }
     }
 
 }

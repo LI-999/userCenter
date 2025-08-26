@@ -32,9 +32,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private UserMapper userMapper;
 
     @Override
-    public long userRegister(String userAccount, String userPassword, String checkPassword) {
+    public long userRegister(String userAccount, String userPassword, String checkPassword, String planetCode) {
         //验证 是否为空或null
-        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
+        if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword, planetCode)) {
             return -1;
         }
 
@@ -51,6 +51,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return -1;
         }
 
+        if (planetCode.length() > 5) {
+            return -1;
+        }
+
         //用户名不能包含特殊字符
         String validPattern = "[`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
         Matcher matcher = Pattern.compile(validPattern).matcher(userAccount);
@@ -58,6 +62,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return -1;
         }
 
+        /**
+         * 星球编号是否存在
+         */
+        QueryWrapper<User> userQueryWrapper1 = new QueryWrapper<>();
+        userQueryWrapper1.eq("planetCode", planetCode);
+        User user1 = userMapper.selectOne(userQueryWrapper1);
+        if (user1 != null || user1.getPlanetCode().equals("0")) {
+            return -1;
+        }
+
+
+        /**
+         * 用户是否存在
+         */
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("username", userAccount);
 
@@ -73,6 +91,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User user = new User();
         user.setUsername(userAccount);
         user.setUserPassword(encodePassword);
+        user.setPlanetCode(planetCode);
         int save = userMapper.insert(user);
 
         if (save != 1) {
@@ -130,7 +149,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public User getSafetyUser(User loginUser){
+    public User getSafetyUser(User loginUser) {
         User safetyUser = new User();
         safetyUser.setId(loginUser.getId());
         safetyUser.setUsername(loginUser.getUsername());
@@ -142,6 +161,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         safetyUser.setEmail(loginUser.getEmail());
         safetyUser.setCreateTime(loginUser.getCreateTime());
         safetyUser.setUserRole(loginUser.getUserRole());
+        safetyUser.setPlanetCode(loginUser.getPlanetCode());
         return safetyUser;
     }
 
