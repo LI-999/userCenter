@@ -3,7 +3,9 @@ package com.jakie.usercenter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.jakie.usercenter.common.ErrorCode;
 import com.jakie.usercenter.constrant.UserConstant;
+import com.jakie.usercenter.exception.BusinessException;
 import com.jakie.usercenter.model.domain.User;
 import com.jakie.usercenter.service.UserService;
 import com.jakie.usercenter.mapper.UserMapper;
@@ -35,31 +37,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public long userRegister(String userAccount, String userPassword, String checkPassword, String planetCode) {
         //验证 是否为空或null
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword, planetCode)) {
-            return -1;
+            throw new BusinessException(ErrorCode.NULL_PARAM,"请求参数为空");
         }
 
         if (userAccount.length() < 4) {
-            return -1;
+            throw new BusinessException(ErrorCode.PARAM_ERROR,"账户长度过短");
+
         }
 
-        if (userPassword.length() < 6 && checkPassword.length() < 6) {
-            return -1;
-
+        if (userPassword.length() < 8 && checkPassword.length() < 8) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR,"密码过短");
         }
 
         if (!userPassword.equals(checkPassword)) {
-            return -1;
+            throw new BusinessException(ErrorCode.PARAM_ERROR,"两次密码不正确");
+
         }
 
         if (planetCode.length() > 5) {
-            return -1;
+            throw new BusinessException(ErrorCode.PARAM_ERROR,"星球参数过长");
+
         }
 
         //用户名不能包含特殊字符
         String validPattern = "[`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
         Matcher matcher = Pattern.compile(validPattern).matcher(userAccount);
         if (matcher.find()) {
-            return -1;
+            throw new BusinessException(ErrorCode.PARAM_ERROR,"用户名包含特殊字符");
+
         }
 
         /**
@@ -69,7 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         userQueryWrapper1.eq("planetCode", planetCode);
         User user1 = userMapper.selectOne(userQueryWrapper1);
         if (user1 != null || user1.getPlanetCode().equals("0")) {
-            return -1;
+            throw new BusinessException(ErrorCode.ALREADY_EXISTS,"星球编号已存在");
         }
 
 
@@ -82,7 +87,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User searchUser = userMapper.selectOne(userQueryWrapper);
         if (searchUser != null) {
             //该用户已经存在
-            return -1;
+            throw new BusinessException(ErrorCode.ALREADY_EXISTS,"用户已存在");
         }
 
         //对密码进行加密
@@ -95,7 +100,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         int save = userMapper.insert(user);
 
         if (save != 1) {
-            return -1;
+            throw new BusinessException(ErrorCode.INSERT_ERROR,"数据库添加失败");
         }
 
         return user.getId();
@@ -105,23 +110,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public User userLogin(String userAccount, String userPassword, HttpServletRequest request) {
         //1.验证 是否为空或null
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
-            return null;
+            throw new BusinessException(ErrorCode.PARAM_ERROR,"参数为空");
         }
 
         if (userAccount.length() < 4) {
-            return null;
+            throw new BusinessException(ErrorCode.PARAM_ERROR,"账户长度过短");
         }
 
-        if (userPassword.length() < 6) {
-            return null;
-
+        if (userPassword.length() < 8) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR,"密码长度过短");
         }
 
         //用户名不能包含特殊字符
         String validPattern = "[`~!@#$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
         Matcher matcher = Pattern.compile(validPattern).matcher(userAccount);
         if (matcher.find()) {
-            return null;
+            throw new BusinessException(ErrorCode.PARAM_ERROR,"用户名包含特殊字符");
         }
 
         //2.查询用户账户密码是否正确
@@ -136,7 +140,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User loginUser = userMapper.selectOne(userQueryWrapper);
         if (loginUser == null) {
             log.info("the user login failed");
-            return null;
+            throw new BusinessException(ErrorCode.NOT_EXISTS,"用户不存在");
         }
 
         //3.脱敏 （防止数据库表中字段 被泄露）
