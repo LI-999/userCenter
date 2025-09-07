@@ -10,6 +10,7 @@ public enum ErrorCode {
     SYSTEM_ERROR(50000,"系统错误",""),
     NOT_EXISTS(50010,"查询结果为空",""),
     ALREADY_EXISTS(50011,"已存在",""),
+    ACCOUNT_ERROR(50012,"账户异常",""),
     INSERT_ERROR(50020,"添加失败","");
 
     private final int code;

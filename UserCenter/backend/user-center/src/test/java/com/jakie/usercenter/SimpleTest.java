@@ -52,7 +52,7 @@ public class SimpleTest {
         System.out.println(str);
 
 
-        System.out.println(DigestUtils.md5DigestAsHex("jakie12345678".getBytes()));
+//        System.out.println(DigestUtils.md5DigestAsHex("jakie12345678".getBytes()));
 
     }
 

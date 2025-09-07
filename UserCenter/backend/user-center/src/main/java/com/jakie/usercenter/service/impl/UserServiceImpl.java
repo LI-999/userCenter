@@ -73,10 +73,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         QueryWrapper<User> userQueryWrapper1 = new QueryWrapper<>();
         userQueryWrapper1.eq("planetCode", planetCode);
         User user1 = userMapper.selectOne(userQueryWrapper1);
-        if (user1 != null || user1.getPlanetCode().equals("0")) {
+        if (user1 != null) {
             throw new BusinessException(ErrorCode.ALREADY_EXISTS,"星球编号已存在");
         }
-
 
         /**
          * 用户是否存在
@@ -94,7 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         String encodePassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
 
         User user = new User();
-        user.setUsername(userAccount);
+        user.setUserAccount(userAccount);
         user.setUserPassword(encodePassword);
         user.setPlanetCode(planetCode);
         int save = userMapper.insert(user);
@@ -131,7 +130,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         //2.查询用户账户密码是否正确
 
         String encodePassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
-        System.out.println(encodePassword);
+//        System.out.println(encodePassword);
 
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.eq("userAccount", userAccount);
@@ -154,6 +153,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public User getSafetyUser(User loginUser) {
+        if(loginUser==null){
+            throw new BusinessException(ErrorCode.NOT_EXISTS,"the current user doesn't exist");
+        }
         User safetyUser = new User();
         safetyUser.setId(loginUser.getId());
         safetyUser.setUsername(loginUser.getUsername());

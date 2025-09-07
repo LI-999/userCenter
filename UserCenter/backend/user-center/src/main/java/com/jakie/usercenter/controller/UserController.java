@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
  * 用户登录、注册
  **/
 @RestController
+//@CrossOrigin("http://localhost:8000")
 @RequestMapping(("/user"))
 public class UserController {
     @Resource
@@ -73,7 +74,30 @@ public class UserController {
             throw new BusinessException(ErrorCode.NULL_PARAM,"request is null");
         }
         request.getSession().removeAttribute(UserConstant.LOGIN_USER_ACCOUNT);
-        return ResultUtils.success("登出成功");
+        return ResultUtils.success("logout success");
+    }
+
+    @GetMapping("/current")
+    public BaseResponse<User> current(HttpServletRequest request){
+        Object object = request.getSession().getAttribute(UserConstant.LOGIN_USER_ACCOUNT);
+        User currentUser = (User) object;
+        if(currentUser==null){
+            throw new BusinessException(ErrorCode.NOT_LOGIN,"the current user doesn't login");
+        }
+        // 对于用户修改频繁的系统来说最好是查询一次数据库
+        // 如果不频繁 可以直接返回session域中已登录的用户信息
+        long id = currentUser.getId();
+        User user = userService.getById(id);
+
+        if(user==null){
+            throw new BusinessException(ErrorCode.NOT_EXISTS,"the current user doesn't exist");
+        }
+
+        if(user.getStatus()==UserConstant.FREEZE_USER){
+            throw new BusinessException(ErrorCode.ACCOUNT_ERROR,"the current user has been freezed");
+        }
+
+        return ResultUtils.success(userService.getSafetyUser(user));
     }
 
     @GetMapping("/search")
@@ -83,13 +107,10 @@ public class UserController {
             return ResultUtils.error(ErrorCode.NO_AUTH);
         }
 
-
-        if (!StringUtils.isNotBlank(username)) {
-            return ResultUtils.error(ErrorCode.PARAM_ERROR);
-        }
-
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.like("username", username);
+        if(StringUtils.isNotBlank(username)){
+            userQueryWrapper.like("username", username);
+        }
         List<User> list = userService.list(userQueryWrapper);
         List<User> collect = list.stream().map(user -> userService.getSafetyUser(user)).collect(Collectors.toList());
         return ResultUtils.success(collect);

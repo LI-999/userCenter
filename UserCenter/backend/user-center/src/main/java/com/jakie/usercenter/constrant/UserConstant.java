@@ -6,4 +6,6 @@ public interface UserConstant {
     int DEFAULT_UESR = 0;
 
     int ADMIN_UESR = 1;
+
+    int FREEZE_USER = 2;
 }

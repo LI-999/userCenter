@@ -10,6 +10,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -20,6 +27,7 @@
     </option>
   </component>
   <component name="MavenRunner">
+    <option name="skipTests" value="true" />
     <option name="vmOptions" value="-DarchetypeCatalog=internal" />
   </component>
   <component name="ProjectColorInfo">{
@@ -35,6 +43,7 @@
     "JUnit.SimpleTest.testDigest.executor": "Run",
     "Maven.user-center [clean].executor": "Run",
     "Maven.user-center [install].executor": "Run",
+    "Maven.user-center [package].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -43,7 +52,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.UserCenterApplication.executor": "Run",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/项目/用户中心/UserCenter/backend",
+    "last_opened_file_path": "E:/项目/用户中心/UserCenter/backend/user-center/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -61,6 +70,11 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\项目\用户中心\UserCenter\backend\user-center\src\main\resources" />
+    </key>
+  </component>
   <component name="RunManager" selected="Spring Boot.UserCenterApplication">
     <configuration name="SimpleTest.testDigest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="user-center" />
@@ -92,6 +106,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.SimpleTest.testDigest" />
+      <item itemvalue="Spring Boot.UserCenterApplication" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.UserCenterApplication" />
@@ -118,7 +136,10 @@
       <workItem from="1756378381292" duration="9632000" />
       <workItem from="1756516018904" duration="2753000" />
       <workItem from="1756817565319" duration="794000" />
-      <workItem from="1756955381943" duration="12050000" />
+      <workItem from="1756955381943" duration="22660000" />
+      <workItem from="1757152612419" duration="786000" />
+      <workItem from="1757153431965" duration="1634000" />
+      <workItem from="1757159114198" duration="26524000" />
     </task>
     <servers />
   </component>
@@ -130,8 +151,36 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/user-center/src/main/java/com/jakie/usercenter/controller/UserController.java</url>
-          <line>90</line>
+          <line>109</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/user-center/src/main/java/com/jakie/usercenter/service/impl/UserServiceImpl.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/user-center/src/main/java/com/jakie/usercenter/service/impl/UserServiceImpl.java</url>
+          <line>139</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/user-center/src/main/java/com/jakie/usercenter/controller/UserController.java</url>
+          <line>32</line>
+          <properties class="com.jakie.usercenter.controller.UserController" method="userLogin">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/user-center/src/main/java/com/jakie/usercenter/controller/UserController.java</url>
+          <line>103</line>
+          <properties class="com.jakie.usercenter.controller.UserController" method="search">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
